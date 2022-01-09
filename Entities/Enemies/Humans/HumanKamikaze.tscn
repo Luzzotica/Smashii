@@ -1,0 +1,157 @@
+[gd_scene load_steps=18 format=2]
+
+[ext_resource path="res://Entities/Enemies/Humans/HumanKamikaze.gd" type="Script" id=1]
+[ext_resource path="res://Entities/Enemies/Humans/Bullets/HumanKamikazeTip.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Assets/Enemies/Human Kamikaze/bad-kkz-1a.png" type="Texture" id=3]
+[ext_resource path="res://Assets/Enemies/Human Kamikaze/bad-kkz-1b.png" type="Texture" id=4]
+[ext_resource path="res://Assets/Enemies/Human Kamikaze/bad-kkz-1.png" type="Texture" id=5]
+[ext_resource path="res://Entities/Enemies/Humans/HumanDeathParticles.tscn" type="PackedScene" id=6]
+[ext_resource path="res://Assets/Sounds/HumanKamikaze/kamiAttack.wav" type="AudioStream" id=7]
+[ext_resource path="res://Assets/Sounds/HumanKamikaze/kamiAttack2.wav" type="AudioStream" id=8]
+[ext_resource path="res://Assets/Sounds/HumanShooter/shooterDeath.wav" type="AudioStream" id=9]
+[ext_resource path="res://Entities/Shared/Behaviors/FlashOnHurt.tscn" type="PackedScene" id=10]
+[ext_resource path="res://Entities/Shared/Behaviors/ScreenWrapBehavior.tscn" type="PackedScene" id=11]
+
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 12.1884, 12.4742 )
+
+[sub_resource type="RectangleShape2D" id=2]
+extents = Vector2( 9.93451, 6.05556 )
+
+[sub_resource type="Curve" id=3]
+_data = [ Vector2( 0, 1 ), 0.0, 0.0, 0, 0, Vector2( 0.919075, 0 ), 0.0, 0.0, 0, 0 ]
+
+[sub_resource type="CurveTexture" id=4]
+curve = SubResource( 3 )
+
+[sub_resource type="ParticlesMaterial" id=5]
+emission_shape = 2
+emission_box_extents = Vector3( 14, 8, 1 )
+flag_disable_z = true
+spread = 180.0
+gravity = Vector3( 0, 0, 0 )
+initial_velocity = 100.0
+angular_velocity = -2.52435e-29
+orbit_velocity = 0.0
+orbit_velocity_random = 0.0
+damping = 10.0
+scale_curve = SubResource( 4 )
+
+[sub_resource type="Animation" id=7]
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprites/TipOn:self_modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ) ]
+}
+
+[node name="HumanKamikaze" type="Area2D"]
+gravity = 0.0
+collision_layer = 8
+collision_mask = 2
+script = ExtResource( 1 )
+TipBullet = ExtResource( 2 )
+
+[node name="Sprites" type="Node2D" parent="."]
+scale = Vector2( 0.9, 0.9 )
+
+[node name="TipOff" type="Sprite" parent="Sprites"]
+position = Vector2( 0, 27 )
+texture = ExtResource( 3 )
+
+[node name="TipOn" type="Sprite" parent="Sprites"]
+self_modulate = Color( 1, 1, 1, 0 )
+position = Vector2( -0.677917, 26.4297 )
+texture = ExtResource( 4 )
+
+[node name="Sprite" type="Sprite" parent="Sprites"]
+texture = ExtResource( 5 )
+
+[node name="Middle" type="CollisionShape2D" parent="."]
+visible = false
+position = Vector2( -0.209051, -3.2579 )
+rotation = 0.785398
+scale = Vector2( 2, 2 )
+shape = SubResource( 1 )
+
+[node name="Tip" type="CollisionShape2D" parent="."]
+visible = false
+position = Vector2( 0, 25.629 )
+shape = SubResource( 2 )
+
+[node name="GunMain" type="Node2D" parent="."]
+position = Vector2( 0, 27 )
+z_index = 50
+
+[node name="DeathNodes" type="Node2D" parent="."]
+editor/display_folded = true
+
+[node name="HumanDeathParticles" parent="DeathNodes" instance=ExtResource( 6 )]
+amount = 4
+process_material = SubResource( 5 )
+
+[node name="WaitAfterDeath" type="Timer" parent="DeathNodes"]
+
+[node name="Timers" type="Node" parent="."]
+editor/display_folded = true
+
+[node name="Lifetime" type="Timer" parent="Timers"]
+one_shot = true
+
+[node name="Wait" type="Timer" parent="Timers"]
+one_shot = true
+
+[node name="WaitAfterTarget" type="Timer" parent="Timers"]
+one_shot = true
+
+[node name="WaitAfterFireSelf" type="Timer" parent="Timers"]
+one_shot = true
+
+[node name="WaitAfterFireTip" type="Timer" parent="Timers"]
+one_shot = true
+
+[node name="RemoveFromGroup" type="Timer" parent="Timers"]
+wait_time = 2.0
+one_shot = true
+
+[node name="Sounds" type="Node2D" parent="."]
+editor/display_folded = true
+
+[node name="FireTip" type="AudioStreamPlayer2D" parent="Sounds"]
+stream = ExtResource( 7 )
+volume_db = -25.0
+
+[node name="FireSelf" type="AudioStreamPlayer2D" parent="Sounds"]
+stream = ExtResource( 8 )
+volume_db = -15.0
+
+[node name="Death" type="AudioStreamPlayer2D" parent="Sounds"]
+stream = ExtResource( 9 )
+volume_db = -15.0
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+anims/TipToRed = SubResource( 7 )
+
+[node name="Targeting" type="Tween" parent="."]
+
+[node name="FlashOnHurt" parent="." instance=ExtResource( 10 )]
+
+[node name="ScreenWrap" parent="." instance=ExtResource( 11 )]
+buffer = 10.0
+
+[connection signal="body_entered" from="." to="." method="_on_HumanKamikaze_body_entered"]
+[connection signal="timeout" from="DeathNodes/WaitAfterDeath" to="." method="_on_WaitAfterDeath_timeout"]
+[connection signal="timeout" from="Timers/Lifetime" to="." method="_on_Lifetime_timeout"]
+[connection signal="timeout" from="Timers/Wait" to="." method="_on_Wait_timeout"]
+[connection signal="timeout" from="Timers/WaitAfterTarget" to="." method="_on_WaitAfterTarget_timeout"]
+[connection signal="timeout" from="Timers/WaitAfterFireSelf" to="." method="_on_WaitAfterFireSelf_timeout"]
+[connection signal="timeout" from="Timers/WaitAfterFireTip" to="." method="_on_WaitAfterFireTip_timeout"]
+[connection signal="timeout" from="Timers/RemoveFromGroup" to="." method="_on_RemoveFromGroup_timeout"]
+[connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_AnimationPlayer_animation_finished"]
+[connection signal="tween_completed" from="Targeting" to="." method="_on_Targeting_tween_completed"]

@@ -1,0 +1,8 @@
+[gd_scene format=2]
+
+[node name="HSeparator" type="HSeparator"]
+modulate = Color( 1, 1, 1, 0 )
+margin_top = 46.0
+margin_right = 539.0
+margin_bottom = 122.0
+

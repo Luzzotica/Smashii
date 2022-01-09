@@ -1,0 +1,121 @@
+[gd_scene load_steps=15 format=2]
+
+[ext_resource path="res://Entities/Enemies/Humans/HumanProducerShooter.gd" type="Script" id=1]
+[ext_resource path="res://Entities/Enemies/Humans/Bullets/HumanProducerShooterBlast.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Assets/Enemies/Human Producer/HumanProducerShooterBig.png" type="Texture" id=3]
+[ext_resource path="res://Entities/Enemies/Humans/HumanDeathParticles.tscn" type="PackedScene" id=4]
+[ext_resource path="res://Assets/Effects/ball - orange.png" type="Texture" id=5]
+[ext_resource path="res://Assets/Sounds/HumanSniper/sniperTAttack1.wav" type="AudioStream" id=6]
+[ext_resource path="res://Assets/Sounds/HumanShooter/shooterDeath.wav" type="AudioStream" id=7]
+[ext_resource path="res://Entities/Shared/Behaviors/FlashOnHurt.tscn" type="PackedScene" id=8]
+[ext_resource path="res://Entities/Shared/Behaviors/ScreenWrapBehavior.tscn" type="PackedScene" id=9]
+
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 3.52227, 4.34125 )
+
+[sub_resource type="Curve" id=4]
+_data = [ Vector2( 0, 1 ), 0.0, 0.0, 0, 0, Vector2( 1, 0 ), 0.0, 0.0, 0, 0 ]
+
+[sub_resource type="CurveTexture" id=5]
+curve = SubResource( 4 )
+
+[sub_resource type="ParticlesMaterial" id=3]
+emission_shape = 2
+emission_box_extents = Vector3( 5, 4, 1 )
+flag_disable_z = true
+spread = 180.0
+gravity = Vector3( 0, 0, 0 )
+initial_velocity = 80.0
+angular_velocity = 1.54143e-43
+orbit_velocity = 0.0
+orbit_velocity_random = 0.0
+scale = 0.4
+scale_curve = SubResource( 5 )
+
+[sub_resource type="Curve" id=2]
+_data = [ Vector2( 0.00250607, 0.9988 ), 0.0, 0.0, 0, 0, Vector2( 0.514214, 0.00767672 ), 0.0, 0.0, 0, 0 ]
+
+[node name="HumanProducerShooter" type="KinematicBody2D"]
+collision_layer = 8
+collision_mask = 6
+script = ExtResource( 1 )
+MainBlast = ExtResource( 2 )
+
+[node name="Sprites" type="Node2D" parent="."]
+scale = Vector2( 0.015, 0.015 )
+
+[node name="Sprite" type="Sprite" parent="Sprites"]
+texture = ExtResource( 3 )
+
+[node name="Collider" type="CollisionShape2D" parent="."]
+scale = Vector2( 2, 2 )
+shape = SubResource( 1 )
+
+[node name="GunMain" type="Node2D" parent="."]
+position = Vector2( 0, 2 )
+rotation = 3.14159
+z_index = 50
+
+[node name="DeathNodes" type="Node2D" parent="."]
+
+[node name="HumanDeathParticles" type="Particles2D" parent="DeathNodes" instance=ExtResource( 4 )]
+emitting = false
+amount = 5
+one_shot = true
+explosiveness = 1.0
+process_material = SubResource( 3 )
+texture = ExtResource( 5 )
+
+[node name="WaitAfterDeath" type="Timer" parent="DeathNodes"]
+one_shot = true
+
+[node name="DeathParticles" type="CPUParticles2D" parent="DeathNodes"]
+visible = false
+emitting = false
+amount = 10
+one_shot = true
+explosiveness = 1.0
+texture = ExtResource( 5 )
+emission_shape = 2
+emission_rect_extents = Vector2( 4, 5 )
+spread = 180.0
+gravity = Vector2( 0, 0 )
+initial_velocity = 60.0
+damping = 10.0
+scale_amount = 0.18
+scale_amount_curve = SubResource( 2 )
+
+[node name="Timers" type="Node" parent="."]
+
+[node name="Wait" type="Timer" parent="Timers"]
+one_shot = true
+
+[node name="DestroyAfterParentDeath" type="Timer" parent="Timers"]
+one_shot = true
+
+[node name="FireStutter" type="Timer" parent="Timers"]
+one_shot = true
+
+[node name="WaitAfterShoot" type="Timer" parent="Timers"]
+one_shot = true
+
+[node name="Sounds" type="Node2D" parent="."]
+
+[node name="Shoot" type="AudioStreamPlayer2D" parent="Sounds"]
+stream = ExtResource( 6 )
+volume_db = -28.0
+
+[node name="Death" type="AudioStreamPlayer2D" parent="Sounds"]
+stream = ExtResource( 7 )
+volume_db = -19.0
+
+[node name="FlashOnHurt" parent="." instance=ExtResource( 8 )]
+
+[node name="ScreenWrap" parent="." instance=ExtResource( 9 )]
+buffer = 10.0
+
+[connection signal="timeout" from="DeathNodes/WaitAfterDeath" to="." method="_on_WaitAfterDeath_timeout"]
+[connection signal="timeout" from="Timers/Wait" to="." method="_on_Wait_timeout"]
+[connection signal="timeout" from="Timers/DestroyAfterParentDeath" to="." method="_on_DestroyAfterParentDeath_timeout"]
+[connection signal="timeout" from="Timers/FireStutter" to="." method="_on_FireStutter_timeout"]
+[connection signal="timeout" from="Timers/WaitAfterShoot" to="." method="_on_WaitAfterShoot_timeout"]

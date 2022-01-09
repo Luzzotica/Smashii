@@ -1,0 +1,502 @@
+[gd_scene load_steps=33 format=2]
+
+[ext_resource path="res://Scenes/MainMenu/MainMenu.gd" type="Script" id=1]
+[ext_resource path="res://Scenes/Shared/GameplayTutorial.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Assets/Backgrounds/BackgroundGas.png" type="Texture" id=3]
+[ext_resource path="res://Assets/Backgrounds/BackgroundStar1.png" type="Texture" id=4]
+[ext_resource path="res://Assets/Backgrounds/BackgroundStar2.png" type="Texture" id=5]
+[ext_resource path="res://Assets/Backgrounds/Home Screen Backgrounds/opening-screen-main-planet-a.png" type="Texture" id=6]
+[ext_resource path="res://Assets/Backgrounds/Planets/planet-6.png" type="Texture" id=7]
+[ext_resource path="res://Assets/Backgrounds/Home Screen Backgrounds/asteroids.png" type="Texture" id=8]
+[ext_resource path="res://Assets/Backgrounds/Home Screen Backgrounds/moon1.png" type="Texture" id=9]
+[ext_resource path="res://Assets/UIElements/Text/SmashiiTitle.png" type="Texture" id=10]
+[ext_resource path="res://Assets/Fonts/NunitoLarge.tres" type="DynamicFont" id=11]
+[ext_resource path="res://Assets/UIElements/Buttons/Start.png" type="Texture" id=12]
+[ext_resource path="res://Assets/UIElements/Buttons/LeaderBoard.png" type="Texture" id=13]
+[ext_resource path="res://Scenes/MainMenu/Leaderboard.gd" type="Script" id=14]
+[ext_resource path="res://Assets/UIElements/Buttons/ButtonBlank.png" type="Texture" id=15]
+[ext_resource path="res://Assets/Fonts/NunitoMedium.tres" type="DynamicFont" id=16]
+[ext_resource path="res://Scenes/MainMenu/HighScoreLabel.gd" type="Script" id=17]
+[ext_resource path="res://Scenes/MainMenu/SettingsPanel.gd" type="Script" id=18]
+[ext_resource path="res://Assets/UIElements/Buttons/MusicOn.png" type="Texture" id=19]
+[ext_resource path="res://Scenes/MainMenu/ToggleButton.gd" type="Script" id=20]
+[ext_resource path="res://Assets/UIElements/Buttons/MusicOff.png" type="Texture" id=21]
+[ext_resource path="res://Assets/UIElements/Buttons/SoundFXOn.png" type="Texture" id=22]
+[ext_resource path="res://Assets/UIElements/Buttons/SoundFXOff.png" type="Texture" id=23]
+[ext_resource path="res://Assets/UIElements/Buttons/Tutorial.png" type="Texture" id=24]
+[ext_resource path="res://Assets/UIElements/Buttons/WhiteArrowLeft.png" type="Texture" id=25]
+[ext_resource path="res://Assets/UIElements/Buttons/WhiteArrowRight.png" type="Texture" id=26]
+[ext_resource path="res://Assets/UIElements/Tutorial/Rectangle Blue Background.png" type="Texture" id=27]
+[ext_resource path="res://Scenes/MainMenu/ScoreContainer.gd" type="Script" id=28]
+[ext_resource path="res://Scenes/MainMenu/ScoreSeparator.tscn" type="PackedScene" id=29]
+[ext_resource path="res://Assets/UIElements/Buttons/Done!.png" type="Texture" id=30]
+[ext_resource path="res://Scenes/Shared/ButtonSounds.tscn" type="PackedScene" id=31]
+
+[sub_resource type="Animation" id=1]
+resource_name = "ArcadeToSettings"
+
+[node name="MainMenu" type="Node2D"]
+script = ExtResource( 1 )
+GameplayTutorial = ExtResource( 2 )
+
+[node name="LeaderboardPressedTimer" type="Timer" parent="."]
+wait_time = 0.5
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2( 300, 512 )
+
+[node name="Backgrounds" type="Node2D" parent="Camera2D"]
+editor/display_folded = true
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="BackgroundGas" type="Sprite" parent="Camera2D/Backgrounds"]
+position = Vector2( -0.99585, 2 )
+texture = ExtResource( 3 )
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="BackgroundStar1" type="Sprite" parent="Camera2D/Backgrounds"]
+texture = ExtResource( 4 )
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="BackgroundStar2" type="Sprite" parent="Camera2D/Backgrounds"]
+texture = ExtResource( 5 )
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="PlanetMain" type="Sprite" parent="Camera2D/Backgrounds"]
+position = Vector2( -15.4814, 5.20349 )
+texture = ExtResource( 6 )
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="Moon2" type="Sprite" parent="Camera2D/Backgrounds"]
+position = Vector2( 71.5347, 265.268 )
+scale = Vector2( 0.324349, 0.324349 )
+texture = ExtResource( 7 )
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="Asteroids" type="Sprite" parent="Camera2D/Backgrounds"]
+position = Vector2( -73.5559, 189.26 )
+scale = Vector2( 0.958373, 0.958373 )
+texture = ExtResource( 8 )
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="Moon1" type="Sprite" parent="Camera2D/Backgrounds"]
+position = Vector2( -211.117, 80.8368 )
+scale = Vector2( 0.651296, 0.651296 )
+texture = ExtResource( 9 )
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="UILayer" type="CanvasLayer" parent="."]
+
+[node name="UIAnimations" type="AnimationPlayer" parent="UILayer"]
+anims/ArcadeToSettings = SubResource( 1 )
+
+[node name="MainUI" type="Control" parent="UILayer" groups=[
+"MainUINode",
+]]
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="Main" type="Panel" parent="UILayer/MainUI" groups=[
+"MainPanel",
+]]
+self_modulate = Color( 1, 1, 1, 0 )
+anchor_right = 1.0
+margin_bottom = 542.0
+
+[node name="Title" type="TextureRect" parent="UILayer/MainUI/Main"]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -231.943
+margin_top = 75.0575
+margin_right = 266.057
+margin_bottom = 165.057
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource( 10 )
+
+[node name="Arcade" type="Panel" parent="UILayer/MainUI/Main" groups=[
+"ArcadePanel",
+]]
+editor/display_folded = true
+self_modulate = Color( 1, 1, 1, 0 )
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+margin_top = -110.0
+margin_bottom = 220.0
+
+[node name="ArcadeTitle" type="Label" parent="UILayer/MainUI/Main/Arcade"]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -157.0
+margin_right = 157.0
+margin_bottom = 69.0
+custom_fonts/font = ExtResource( 11 )
+text = "Arcade Mode"
+align = 1
+valign = 1
+
+[node name="Start" type="TextureButton" parent="UILayer/MainUI/Main/Arcade" groups=[
+"Buttons",
+]]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -197.5
+margin_top = 89.0
+margin_right = 197.5
+margin_bottom = 157.0
+texture_normal = ExtResource( 12 )
+expand = true
+stretch_mode = 5
+
+[node name="Leaderboard" type="TextureButton" parent="UILayer/MainUI/Main/Arcade" groups=[
+"Buttons",
+]]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -196.557
+margin_top = 169.0
+margin_right = 198.443
+margin_bottom = 237.0
+texture_normal = ExtResource( 13 )
+expand = true
+stretch_mode = 5
+script = ExtResource( 14 )
+
+[node name="HighScore" type="TextureButton" parent="UILayer/MainUI/Main/Arcade" groups=[
+"Buttons",
+]]
+editor/display_folded = true
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -197.5
+margin_top = 249.0
+margin_right = 197.5
+margin_bottom = 317.0
+texture_normal = ExtResource( 15 )
+expand = true
+stretch_mode = 5
+
+[node name="HighScoreLabel" type="Label" parent="UILayer/MainUI/Main/Arcade/HighScore"]
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+margin_top = -21.0
+margin_bottom = 21.0
+custom_fonts/font = ExtResource( 16 )
+text = "High Score: 0"
+align = 1
+valign = 1
+script = ExtResource( 17 )
+
+[node name="Settings" type="Panel" parent="UILayer/MainUI/Main" groups=[
+"SettingsPanel",
+]]
+editor/display_folded = true
+visible = false
+modulate = Color( 1, 1, 1, 0 )
+self_modulate = Color( 1, 1, 1, 0 )
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+margin_top = -110.0
+margin_bottom = 220.0
+script = ExtResource( 18 )
+
+[node name="SettingsTitle" type="Label" parent="UILayer/MainUI/Main/Settings"]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -157.0
+margin_right = 157.0
+margin_bottom = 69.0
+custom_fonts/font = ExtResource( 11 )
+text = "Settings"
+align = 1
+valign = 1
+
+[node name="Music" type="TextureButton" parent="UILayer/MainUI/Main/Settings" groups=[
+"Buttons",
+]]
+anchor_top = 0.5
+anchor_bottom = 0.5
+margin_left = 22.0
+margin_top = -76.0
+margin_right = 286.0
+margin_bottom = -7.85968
+grow_horizontal = 0
+grow_vertical = 0
+texture_normal = ExtResource( 19 )
+expand = true
+stretch_mode = 5
+script = ExtResource( 20 )
+onTexture = ExtResource( 19 )
+offTexture = ExtResource( 21 )
+
+[node name="SoundFX" type="TextureButton" parent="UILayer/MainUI/Main/Settings" groups=[
+"Buttons",
+]]
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+margin_left = -286.0
+margin_top = -76.0
+margin_right = -22.0
+margin_bottom = -7.85968
+texture_normal = ExtResource( 22 )
+expand = true
+stretch_mode = 5
+script = ExtResource( 20 )
+onTexture = ExtResource( 22 )
+offTexture = ExtResource( 23 )
+
+[node name="Tutorial" type="TextureButton" parent="UILayer/MainUI/Main/Settings" groups=[
+"Buttons",
+]]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -197.5
+margin_top = 169.0
+margin_right = 197.5
+margin_bottom = 237.0
+texture_normal = ExtResource( 24 )
+expand = true
+stretch_mode = 5
+
+[node name="LeftArrow" type="TextureButton" parent="UILayer/MainUI/Main" groups=[
+"Buttons",
+]]
+anchor_top = 0.5
+anchor_bottom = 0.5
+margin_left = 20.0
+margin_top = 69.0
+margin_right = 69.0
+margin_bottom = 118.0
+texture_normal = ExtResource( 25 )
+expand = true
+stretch_mode = 5
+
+[node name="RightArrow" type="TextureButton" parent="UILayer/MainUI/Main" groups=[
+"Buttons",
+]]
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+margin_left = -69.0
+margin_top = 69.0
+margin_right = -20.0
+margin_bottom = 118.0
+texture_normal = ExtResource( 26 )
+expand = true
+stretch_mode = 5
+
+[node name="HighScores" type="Panel" parent="UILayer/MainUI" groups=[
+"HighScores",
+]]
+editor/display_folded = true
+visible = false
+self_modulate = Color( 1, 1, 1, 0 )
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="Background" type="TextureRect" parent="UILayer/MainUI/HighScores"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -269.5
+margin_top = -407.5
+margin_right = 269.5
+margin_bottom = 407.5
+texture = ExtResource( 27 )
+expand = true
+stretch_mode = 5
+
+[node name="Title" type="Label" parent="UILayer/MainUI/HighScores/Background"]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -144.5
+margin_top = 10.0
+margin_right = 144.5
+margin_bottom = 79.0
+custom_fonts/font = ExtResource( 11 )
+text = "High Scores"
+
+[node name="ScoreContainer" type="VBoxContainer" parent="UILayer/MainUI/HighScores/Background" groups=[
+"ScoreContainer",
+]]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -269.5
+margin_top = -287.5
+margin_right = 269.5
+margin_bottom = 240.5
+alignment = 1
+script = ExtResource( 28 )
+
+[node name="Score1" type="Label" parent="UILayer/MainUI/HighScores/Background/ScoreContainer"]
+margin_right = 539.0
+margin_bottom = 42.0
+custom_fonts/font = ExtResource( 16 )
+text = "0"
+align = 1
+
+[node name="HSeparator" parent="UILayer/MainUI/HighScores/Background/ScoreContainer" instance=ExtResource( 29 )]
+margin_bottom = 50.0
+
+[node name="Score6" type="Label" parent="UILayer/MainUI/HighScores/Background/ScoreContainer"]
+margin_top = 54.0
+margin_right = 539.0
+margin_bottom = 96.0
+custom_fonts/font = ExtResource( 16 )
+text = "0"
+align = 1
+
+[node name="HSeparator2" parent="UILayer/MainUI/HighScores/Background/ScoreContainer" instance=ExtResource( 29 )]
+margin_top = 100.0
+margin_bottom = 104.0
+
+[node name="Score7" type="Label" parent="UILayer/MainUI/HighScores/Background/ScoreContainer"]
+margin_top = 108.0
+margin_right = 539.0
+margin_bottom = 150.0
+custom_fonts/font = ExtResource( 16 )
+text = "0"
+align = 1
+
+[node name="HSeparator3" parent="UILayer/MainUI/HighScores/Background/ScoreContainer" instance=ExtResource( 29 )]
+margin_top = 154.0
+margin_bottom = 158.0
+
+[node name="Score8" type="Label" parent="UILayer/MainUI/HighScores/Background/ScoreContainer"]
+margin_top = 162.0
+margin_right = 539.0
+margin_bottom = 204.0
+custom_fonts/font = ExtResource( 16 )
+text = "0"
+align = 1
+
+[node name="HSeparator4" parent="UILayer/MainUI/HighScores/Background/ScoreContainer" instance=ExtResource( 29 )]
+margin_top = 208.0
+margin_bottom = 212.0
+
+[node name="Score9" type="Label" parent="UILayer/MainUI/HighScores/Background/ScoreContainer"]
+margin_top = 216.0
+margin_right = 539.0
+margin_bottom = 258.0
+custom_fonts/font = ExtResource( 16 )
+text = "0"
+align = 1
+
+[node name="HSeparator5" parent="UILayer/MainUI/HighScores/Background/ScoreContainer" instance=ExtResource( 29 )]
+margin_top = 262.0
+margin_bottom = 266.0
+
+[node name="Score2" type="Label" parent="UILayer/MainUI/HighScores/Background/ScoreContainer"]
+margin_top = 270.0
+margin_right = 539.0
+margin_bottom = 312.0
+custom_fonts/font = ExtResource( 16 )
+text = "0"
+align = 1
+
+[node name="HSeparator6" parent="UILayer/MainUI/HighScores/Background/ScoreContainer" instance=ExtResource( 29 )]
+margin_top = 316.0
+margin_bottom = 320.0
+
+[node name="Score3" type="Label" parent="UILayer/MainUI/HighScores/Background/ScoreContainer"]
+margin_top = 324.0
+margin_right = 539.0
+margin_bottom = 366.0
+custom_fonts/font = ExtResource( 16 )
+text = "0"
+align = 1
+
+[node name="HSeparator7" parent="UILayer/MainUI/HighScores/Background/ScoreContainer" instance=ExtResource( 29 )]
+margin_top = 370.0
+margin_bottom = 374.0
+
+[node name="Score4" type="Label" parent="UILayer/MainUI/HighScores/Background/ScoreContainer"]
+margin_top = 378.0
+margin_right = 539.0
+margin_bottom = 420.0
+custom_fonts/font = ExtResource( 16 )
+text = "0"
+align = 1
+
+[node name="HSeparator8" parent="UILayer/MainUI/HighScores/Background/ScoreContainer" instance=ExtResource( 29 )]
+margin_top = 424.0
+margin_bottom = 428.0
+
+[node name="Score5" type="Label" parent="UILayer/MainUI/HighScores/Background/ScoreContainer"]
+margin_top = 432.0
+margin_right = 539.0
+margin_bottom = 474.0
+custom_fonts/font = ExtResource( 16 )
+text = "0"
+align = 1
+
+[node name="HSeparator9" parent="UILayer/MainUI/HighScores/Background/ScoreContainer" instance=ExtResource( 29 )]
+margin_top = 478.0
+margin_bottom = 482.0
+
+[node name="Score10" type="Label" parent="UILayer/MainUI/HighScores/Background/ScoreContainer"]
+margin_top = 486.0
+margin_right = 539.0
+margin_bottom = 528.0
+custom_fonts/font = ExtResource( 16 )
+text = "0"
+align = 1
+
+[node name="Done" type="TextureButton" parent="UILayer/MainUI/HighScores/Background" groups=[
+"Buttons",
+]]
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+margin_left = -197.5
+margin_top = -119.5
+margin_right = 197.5
+margin_bottom = -51.5
+texture_normal = ExtResource( 30 )
+expand = true
+stretch_mode = 5
+
+[node name="PanelSwap" type="Tween" parent="UILayer"]
+
+[node name="ButtonSounds" parent="UILayer" instance=ExtResource( 31 )]
+[connection signal="buttonAdded" from="." to="UILayer/ButtonSounds" method="_on_button_added"]
+[connection signal="timeout" from="LeaderboardPressedTimer" to="." method="_on_LeaderboardPressedTiimer_timeout"]
+[connection signal="button_down" from="UILayer/MainUI/Main/Arcade/Start" to="." method="_on_Start_button_down"]
+[connection signal="button_down" from="UILayer/MainUI/Main/Arcade/Leaderboard" to="." method="_on_Leaderboard_button_down"]
+[connection signal="button_down" from="UILayer/MainUI/Main/Arcade/HighScore" to="." method="_on_HighScore_button_down"]
+[connection signal="button_down" from="UILayer/MainUI/Main/Settings/Music" to="UILayer/MainUI/Main/Settings" method="_on_Music_button_down"]
+[connection signal="button_down" from="UILayer/MainUI/Main/Settings/Music" to="." method="_on_Music_button_down"]
+[connection signal="button_down" from="UILayer/MainUI/Main/Settings/SoundFX" to="UILayer/MainUI/Main/Settings" method="_on_SoundFX_button_down"]
+[connection signal="button_down" from="UILayer/MainUI/Main/Settings/SoundFX" to="." method="_on_SoundFX_button_down"]
+[connection signal="button_down" from="UILayer/MainUI/Main/Settings/Tutorial" to="UILayer/MainUI/Main/Settings" method="_on_Tutorial_button_down"]
+[connection signal="button_down" from="UILayer/MainUI/Main/Settings/Tutorial" to="." method="_on_Tutorial_button_down"]
+[connection signal="button_down" from="UILayer/MainUI/Main/LeftArrow" to="." method="_on_LeftArrow_button_down"]
+[connection signal="button_down" from="UILayer/MainUI/Main/RightArrow" to="." method="_on_RightArrow_button_down"]
+[connection signal="button_down" from="UILayer/MainUI/HighScores/Background/Done" to="." method="_on_Done_button_down"]
+[connection signal="tween_completed" from="UILayer/PanelSwap" to="." method="_on_PanelSwap_tween_completed"]

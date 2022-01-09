@@ -1,0 +1,537 @@
+[gd_scene load_steps=37 format=2]
+
+[ext_resource path="res://Scenes/Arcade/ArcadeManager.gd" type="Script" id=1]
+[ext_resource path="res://Scenes/Arcade/Countdown.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Scenes/Shared/GameplayTutorial.tscn" type="PackedScene" id=3]
+[ext_resource path="res://Scenes/Shared/Background.gd" type="Script" id=4]
+[ext_resource path="res://Assets/Backgrounds/BackgroundGasMat.tres" type="Material" id=5]
+[ext_resource path="res://Assets/Backgrounds/BackgroundGas.png" type="Texture" id=6]
+[ext_resource path="res://Assets/Backgrounds/BackgroundStar1Mat.tres" type="Material" id=7]
+[ext_resource path="res://Assets/Backgrounds/BackgroundStar1.png" type="Texture" id=8]
+[ext_resource path="res://Assets/Backgrounds/BackgroundStar2Mat.tres" type="Material" id=9]
+[ext_resource path="res://Assets/Backgrounds/BackgroundStar2.png" type="Texture" id=10]
+[ext_resource path="res://Scenes/Arcade/GameplayUI.gd" type="Script" id=11]
+[ext_resource path="res://Assets/UIElements/Buttons/PauseCorner.png" type="Texture" id=12]
+[ext_resource path="res://Assets/Fonts/NunitoSmall.tres" type="DynamicFont" id=13]
+[ext_resource path="res://Scenes/Arcade/ScoreLabel.gd" type="Script" id=14]
+[ext_resource path="res://Scenes/Arcade/PowerupUI.gd" type="Script" id=15]
+[ext_resource path="res://Assets/UIElements/Buttons/PowerupButtonOuter.png" type="Texture" id=16]
+[ext_resource path="res://Assets/UIElements/Buttons/PowerupButtonInner.png" type="Texture" id=17]
+[ext_resource path="res://Assets/Player/PlayerEMP.png" type="Texture" id=18]
+[ext_resource path="res://Scenes/Arcade/PauseUI.gd" type="Script" id=19]
+[ext_resource path="res://Assets/UIElements/Text/TitleGamePaused.png" type="Texture" id=20]
+[ext_resource path="res://Assets/Fonts/NunitoLarge.tres" type="DynamicFont" id=21]
+[ext_resource path="res://Scenes/Arcade/HighScoreLabel.gd" type="Script" id=22]
+[ext_resource path="res://Scenes/Arcade/CurrentScoreLabel.gd" type="Script" id=23]
+[ext_resource path="res://Assets/UIElements/Buttons/Quit.png" type="Texture" id=24]
+[ext_resource path="res://Assets/UIElements/Buttons/Resume.png" type="Texture" id=25]
+[ext_resource path="res://Assets/UIElements/Buttons/Restart.png" type="Texture" id=26]
+[ext_resource path="res://Assets/UIElements/Buttons/RecalibrateGyro.png" type="Texture" id=27]
+[ext_resource path="res://Assets/UIElements/Buttons/Done!.png" type="Texture" id=28]
+[ext_resource path="res://Assets/UIElements/Text/TitleYouDied.png" type="Texture" id=29]
+[ext_resource path="res://Scenes/Arcade/LivesVisual.gd" type="Script" id=30]
+[ext_resource path="res://Assets/Player/PlayerShip.png" type="Texture" id=31]
+[ext_resource path="res://Assets/Fonts/NunitoMedium.tres" type="DynamicFont" id=32]
+[ext_resource path="res://Entities/EntityManager.tscn" type="PackedScene" id=33]
+[ext_resource path="res://Scenes/Shared/ButtonSounds.tscn" type="PackedScene" id=34]
+
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 472.287, 10 )
+
+[sub_resource type="Animation" id=2]
+resource_name = "Cooldown"
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:rect_size")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector2( 96, 83 ), Vector2( 96, 0 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath(".:rect_position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector2( 0, 12 ), Vector2( 0, 54 ) ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("../Powerup:self_modulate")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ Color( 1, 0, 0, 1 ), Color( 1, 1, 1, 1 ) ]
+}
+
+[node name="Arcade" type="Node2D"]
+script = ExtResource( 1 )
+CountdownTimer = ExtResource( 2 )
+GameplayTutorial = ExtResource( 3 )
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2( 300, 512 )
+
+[node name="PlayerConstraints" type="StaticBody2D" parent="Camera2D"]
+editor/display_folded = true
+visible = false
+position = Vector2( 0, 38 )
+collision_mask = 2
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="BotConstraint" type="CollisionShape2D" parent="Camera2D/PlayerConstraints"]
+shape = SubResource( 1 )
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="TopConstraint" type="CollisionShape2D" parent="Camera2D/PlayerConstraints"]
+position = Vector2( 0, 485 )
+shape = SubResource( 1 )
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="Backgrounds" type="Node2D" parent="Camera2D"]
+editor/display_folded = true
+script = ExtResource( 4 )
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="BackgroundGas" type="Sprite" parent="Camera2D/Backgrounds"]
+material = ExtResource( 5 )
+position = Vector2( -0.99585, 2 )
+texture = ExtResource( 6 )
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="BackgroundStar1" type="Sprite" parent="Camera2D/Backgrounds"]
+material = ExtResource( 7 )
+texture = ExtResource( 8 )
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="BackgroundStar2" type="Sprite" parent="Camera2D/Backgrounds"]
+material = ExtResource( 9 )
+texture = ExtResource( 10 )
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="UILayer" type="CanvasLayer" parent="Camera2D"]
+layer = 5
+
+[node name="GameplayUI" type="Control" parent="Camera2D/UILayer" groups=[
+"GameplayUI",
+]]
+pause_mode = 2
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = -0.279358
+margin_right = -0.279358
+script = ExtResource( 11 )
+
+[node name="PauseButton" type="TextureButton" parent="Camera2D/UILayer/GameplayUI" groups=[
+"Buttons",
+]]
+anchor_left = 1.0
+anchor_right = 1.0
+margin_left = -154.0
+margin_right = 104.0
+margin_bottom = 103.0
+rect_scale = Vector2( 0.6, 0.62 )
+texture_normal = ExtResource( 12 )
+texture_pressed = ExtResource( 12 )
+texture_hover = ExtResource( 12 )
+
+[node name="ScoreLabel" type="RichTextLabel" parent="Camera2D/UILayer/GameplayUI"]
+margin_left = 20.0
+margin_top = 10.0
+margin_right = 426.0
+margin_bottom = 50.0
+custom_fonts/mono_font = ExtResource( 13 )
+custom_fonts/bold_font = ExtResource( 13 )
+text = "0"
+script = ExtResource( 14 )
+
+[node name="PowerupUI" type="Control" parent="Camera2D/UILayer/GameplayUI"]
+editor/display_folded = true
+anchor_left = 1.0
+anchor_right = 1.0
+margin_left = -256.0
+margin_top = -30.0
+margin_right = -161.0
+margin_bottom = 66.0
+script = ExtResource( 15 )
+
+[node name="Frame" type="TextureRect" parent="Camera2D/UILayer/GameplayUI/PowerupUI"]
+margin_right = 96.0
+margin_bottom = 95.0
+texture = ExtResource( 16 )
+expand = true
+stretch_mode = 6
+
+[node name="Center" type="TextureRect" parent="Camera2D/UILayer/GameplayUI/PowerupUI"]
+margin_right = 96.0
+margin_bottom = 95.0
+texture = ExtResource( 17 )
+expand = true
+stretch_mode = 6
+
+[node name="Powerup" type="TextureRect" parent="Camera2D/UILayer/GameplayUI/PowerupUI"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -42.7794
+margin_top = -31.0
+margin_right = 40.2206
+margin_bottom = 51.0
+texture = ExtResource( 18 )
+expand = true
+stretch_mode = 6
+
+[node name="Darkening" type="TextureRect" parent="Camera2D/UILayer/GameplayUI/PowerupUI"]
+self_modulate = Color( 0, 0, 0, 1 )
+margin_top = 54.0
+margin_right = 96.0
+margin_bottom = 54.0
+texture = ExtResource( 17 )
+expand = true
+stretch_mode = 1
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Camera2D/UILayer/GameplayUI/PowerupUI/Darkening"]
+pause_mode = 1
+playback_speed = 0.1
+anims/Cooldown = SubResource( 2 )
+
+[node name="PauseUI" type="Control" parent="Camera2D/UILayer" groups=[
+"PauseUI",
+]]
+pause_mode = 2
+editor/display_folded = true
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_top = -0.923828
+margin_bottom = -0.923828
+script = ExtResource( 19 )
+
+[node name="BackgroundTint" type="Panel" parent="Camera2D/UILayer/PauseUI"]
+self_modulate = Color( 0, 0, 0, 0.27451 )
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_top = 0.923828
+
+[node name="Panel" type="Panel" parent="Camera2D/UILayer/PauseUI"]
+editor/display_folded = true
+self_modulate = Color( 1, 1, 1, 0 )
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_bottom = -431.0
+
+[node name="Title" type="TextureRect" parent="Camera2D/UILayer/PauseUI/Panel"]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -198.0
+margin_top = 50.0
+margin_right = 198.0
+margin_bottom = 98.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource( 20 )
+
+[node name="HighScore" type="Label" parent="Camera2D/UILayer/PauseUI/Panel"]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -240.0
+margin_top = 120.0
+margin_right = 240.0
+margin_bottom = 176.0
+grow_horizontal = 2
+grow_vertical = 2
+custom_fonts/font = ExtResource( 21 )
+text = "High Score: 0"
+align = 1
+valign = 1
+script = ExtResource( 22 )
+
+[node name="CurrentScore" type="Label" parent="Camera2D/UILayer/PauseUI/Panel"]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -240.0
+margin_top = 180.0
+margin_right = 240.0
+margin_bottom = 236.0
+grow_horizontal = 2
+grow_vertical = 2
+custom_fonts/font = ExtResource( 21 )
+text = "Current Score: 0"
+align = 1
+valign = 1
+script = ExtResource( 23 )
+
+[node name="ButtonPanel" type="Panel" parent="Camera2D/UILayer/PauseUI/Panel"]
+self_modulate = Color( 1, 1, 1, 0 )
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_top = 236.0
+margin_bottom = -490.0
+
+[node name="Quit" type="TextureButton" parent="Camera2D/UILayer/PauseUI/Panel/ButtonPanel" groups=[
+"Buttons",
+]]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -183.0
+margin_top = 14.0
+margin_right = 186.0
+margin_bottom = 74.0
+grow_horizontal = 2
+grow_vertical = 2
+texture_normal = ExtResource( 24 )
+expand = true
+stretch_mode = 4
+
+[node name="Resume" type="TextureButton" parent="Camera2D/UILayer/PauseUI/Panel/ButtonPanel" groups=[
+"Buttons",
+]]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -183.0
+margin_top = 84.0
+margin_right = 186.0
+margin_bottom = 144.0
+grow_horizontal = 2
+grow_vertical = 2
+texture_normal = ExtResource( 25 )
+expand = true
+stretch_mode = 4
+
+[node name="Restart" type="TextureButton" parent="Camera2D/UILayer/PauseUI/Panel/ButtonPanel" groups=[
+"Buttons",
+]]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -183.0
+margin_top = 154.0
+margin_right = 186.0
+margin_bottom = 214.0
+grow_horizontal = 2
+grow_vertical = 2
+texture_normal = ExtResource( 26 )
+expand = true
+stretch_mode = 4
+
+[node name="RecalibrateGyro" type="TextureButton" parent="Camera2D/UILayer/PauseUI/Panel/ButtonPanel" groups=[
+"Buttons",
+]]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -183.0
+margin_top = 224.0
+margin_right = 186.0
+margin_bottom = 284.0
+grow_horizontal = 2
+grow_vertical = 2
+texture_normal = ExtResource( 27 )
+texture_pressed = ExtResource( 28 )
+expand = true
+stretch_mode = 4
+
+[node name="DeathUI" type="Control" parent="Camera2D/UILayer" groups=[
+"DeathUI",
+]]
+pause_mode = 2
+editor/display_folded = true
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="BackgroundTint" type="Panel" parent="Camera2D/UILayer/DeathUI"]
+self_modulate = Color( 0, 0, 0, 0.27451 )
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_bottom = -0.923828
+
+[node name="Panel" type="Panel" parent="Camera2D/UILayer/DeathUI"]
+self_modulate = Color( 1, 1, 1, 0 )
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_top = -0.923828
+margin_bottom = -40.9238
+
+[node name="Title" type="TextureRect" parent="Camera2D/UILayer/DeathUI/Panel"]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -156.0
+margin_top = 50.0
+margin_right = 156.0
+margin_bottom = 98.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource( 29 )
+
+[node name="HighScore" type="Label" parent="Camera2D/UILayer/DeathUI/Panel"]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -240.0
+margin_top = 120.0
+margin_right = 240.0
+margin_bottom = 176.0
+grow_horizontal = 2
+grow_vertical = 2
+custom_fonts/font = ExtResource( 21 )
+text = "High Score: 0"
+align = 1
+valign = 1
+script = ExtResource( 22 )
+
+[node name="CurrentScore" type="Label" parent="Camera2D/UILayer/DeathUI/Panel"]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -240.0
+margin_top = 180.0
+margin_right = 240.0
+margin_bottom = 236.0
+grow_horizontal = 2
+grow_vertical = 2
+custom_fonts/font = ExtResource( 21 )
+text = "Current Score: 0"
+align = 1
+valign = 1
+script = ExtResource( 23 )
+
+[node name="ButtonPanel" type="Panel" parent="Camera2D/UILayer/DeathUI/Panel"]
+self_modulate = Color( 1, 1, 1, 0 )
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_top = 236.0
+margin_bottom = -490.0
+
+[node name="Quit" type="TextureButton" parent="Camera2D/UILayer/DeathUI/Panel/ButtonPanel" groups=[
+"Buttons",
+]]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -183.0
+margin_top = 84.0
+margin_right = 186.0
+margin_bottom = 144.0
+grow_horizontal = 2
+grow_vertical = 2
+texture_normal = ExtResource( 24 )
+expand = true
+stretch_mode = 4
+
+[node name="Restart" type="TextureButton" parent="Camera2D/UILayer/DeathUI/Panel/ButtonPanel" groups=[
+"Buttons",
+]]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -183.0
+margin_top = 14.0
+margin_right = 186.0
+margin_bottom = 74.0
+grow_horizontal = 2
+grow_vertical = 2
+texture_normal = ExtResource( 26 )
+expand = true
+stretch_mode = 4
+
+[node name="Lives" type="Control" parent="Camera2D/UILayer"]
+pause_mode = 2
+editor/display_folded = true
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = -192.0
+margin_top = -67.0
+script = ExtResource( 30 )
+
+[node name="Panel" type="Panel" parent="Camera2D/UILayer/Lives"]
+editor/display_folded = true
+self_modulate = Color( 1, 1, 1, 0 )
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_top = -0.71875
+margin_right = -5.0
+
+[node name="LifeOne" type="TextureRect" parent="Camera2D/UILayer/Lives/Panel"]
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = -40.0
+margin_top = -40.0
+texture = ExtResource( 31 )
+expand = true
+
+[node name="LifeTwo" type="TextureRect" parent="Camera2D/UILayer/Lives/Panel"]
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = -82.0
+margin_top = -39.9997
+margin_right = -42.0
+margin_bottom = 0.00025177
+texture = ExtResource( 31 )
+expand = true
+
+[node name="LifeThree" type="TextureRect" parent="Camera2D/UILayer/Lives/Panel"]
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = -124.0
+margin_top = -39.9997
+margin_right = -84.0
+margin_bottom = 0.00025177
+texture = ExtResource( 31 )
+expand = true
+
+[node name="LifeOver" type="Label" parent="Camera2D/UILayer/Lives/Panel"]
+visible = false
+margin_left = 108.0
+margin_top = 27.0
+margin_right = 186.0
+margin_bottom = 69.0
+custom_fonts/font = ExtResource( 32 )
+text = "X4"
+
+[node name="EntityManager" parent="." instance=ExtResource( 33 )]
+
+[node name="ButtonSounds" parent="." instance=ExtResource( 34 )]
+
+[connection signal="buttonAdded" from="." to="ButtonSounds" method="_on_button_added"]
+[connection signal="playerDeath" from="." to="Camera2D/UILayer/Lives" method="_on_Arcade_playerDeath"]
+[connection signal="powerUsed" from="." to="Camera2D/UILayer/GameplayUI/PowerupUI" method="_on_Arcade_powerUsed"]
+[connection signal="reset" from="." to="Camera2D/UILayer/Lives" method="_on_reset"]
+[connection signal="reset" from="." to="EntityManager" method="_on_Arcade_reset"]
+[connection signal="button_down" from="Camera2D/UILayer/GameplayUI/PauseButton" to="." method="_on_PauseButton_button_down"]
+[connection signal="button_down" from="Camera2D/UILayer/PauseUI/Panel/ButtonPanel/Quit" to="." method="_on_PauseQuit_button_down"]
+[connection signal="button_down" from="Camera2D/UILayer/PauseUI/Panel/ButtonPanel/Resume" to="." method="_on_Resume_button_down"]
+[connection signal="button_down" from="Camera2D/UILayer/PauseUI/Panel/ButtonPanel/Restart" to="." method="_on_PauseRestart_button_down"]
+[connection signal="button_down" from="Camera2D/UILayer/PauseUI/Panel/ButtonPanel/RecalibrateGyro" to="." method="_on_RecalibrateGyro_button_down"]
+[connection signal="button_down" from="Camera2D/UILayer/DeathUI/Panel/ButtonPanel/Quit" to="." method="_on_DeathQuit_button_down"]
+[connection signal="button_down" from="Camera2D/UILayer/DeathUI/Panel/ButtonPanel/Restart" to="." method="_on_DeathRestart_button_down"]

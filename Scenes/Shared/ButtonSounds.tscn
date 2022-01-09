@@ -1,0 +1,13 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://Scenes/Shared/ButtonSounds.gd" type="Script" id=1]
+[ext_resource path="res://Assets/Sounds/UISounds/Button_Click.wav" type="AudioStream" id=2]
+
+[node name="ButtonSounds" type="Node2D"]
+script = ExtResource( 1 )
+
+[node name="ButtonDown" type="AudioStreamPlayer2D" parent="."]
+pause_mode = 2
+stream = ExtResource( 2 )
+volume_db = -15.0
+

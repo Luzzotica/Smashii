@@ -1,0 +1,177 @@
+[gd_scene load_steps=21 format=2]
+
+[ext_resource path="res://Entities/Enemies/Humans/HumanSniper.gd" type="Script" id=1]
+[ext_resource path="res://Entities/Enemies/Humans/Bullets/HumanSniperBlast.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Assets/Enemies/Human Sniper/HumanSniperBigWhiteSpot.png" type="Texture" id=3]
+[ext_resource path="res://Assets/Enemies/Human Sniper/HumanSniperBigNoWhite.png" type="Texture" id=4]
+[ext_resource path="res://Entities/Enemies/Humans/HumanDeathParticles.tscn" type="PackedScene" id=5]
+[ext_resource path="res://Assets/Effects/ball - orange.png" type="Texture" id=6]
+[ext_resource path="res://Assets/Sounds/HumanSniper/sniperTAttack1.wav" type="AudioStream" id=7]
+[ext_resource path="res://Assets/Sounds/HumanShooter/shooterDeath.wav" type="AudioStream" id=8]
+[ext_resource path="res://Entities/Shared/Behaviors/FlashOnHurt.tscn" type="PackedScene" id=9]
+[ext_resource path="res://Entities/Shared/Behaviors/ScreenWrapBehavior.tscn" type="PackedScene" id=10]
+
+[sub_resource type="RectangleShape2D" id=11]
+extents = Vector2( 17.953, 4.40206 )
+
+[sub_resource type="RectangleShape2D" id=12]
+extents = Vector2( 10.6741, 46.6889 )
+
+[sub_resource type="RectangleShape2D" id=13]
+extents = Vector2( 11.7268, 11.8175 )
+
+[sub_resource type="RectangleShape2D" id=14]
+extents = Vector2( 4.87902, 15.1144 )
+
+[sub_resource type="Curve" id=8]
+_data = [ Vector2( 0, 1 ), 0.0, 0.0, 0, 0, Vector2( 0.937747, 0 ), 0.0, 0.0, 0, 0 ]
+
+[sub_resource type="CurveTexture" id=9]
+curve = SubResource( 8 )
+
+[sub_resource type="ParticlesMaterial" id=10]
+emission_shape = 2
+emission_box_extents = Vector3( 20, 16, 1 )
+flag_disable_z = true
+spread = 180.0
+gravity = Vector3( 0, 0, 0 )
+initial_velocity = 100.0
+orbit_velocity = 0.0
+orbit_velocity_random = 0.0
+damping = 10.0
+scale_curve = SubResource( 9 )
+
+[sub_resource type="Curve" id=5]
+_data = [ Vector2( 0.00250607, 0.9988 ), 0.0, 0.0, 0, 0, Vector2( 0.514214, 0.00767672 ), 0.0, 0.0, 0, 0 ]
+
+[sub_resource type="Animation" id=6]
+resource_name = "LineRedToWhite"
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprites/ColorLine:self_modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 0, 0, 1 ), Color( 1, 1, 1, 1 ) ]
+}
+
+[sub_resource type="Animation" id=7]
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprites/ColorLine:self_modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ), Color( 1, 0, 0, 1 ) ]
+}
+
+[node name="HumanSniper" type="KinematicBody2D"]
+collision_layer = 8
+collision_mask = 6
+script = ExtResource( 1 )
+FastBlast = ExtResource( 2 )
+
+[node name="Sprites" type="Node2D" parent="."]
+scale = Vector2( 0.06, 0.06 )
+
+[node name="ColorLine" type="Sprite" parent="Sprites"]
+texture = ExtResource( 3 )
+
+[node name="Sprite" type="Sprite" parent="Sprites"]
+texture = ExtResource( 4 )
+
+[node name="Boosters" type="CollisionShape2D" parent="."]
+position = Vector2( 0, -37 )
+shape = SubResource( 11 )
+
+[node name="Wings" type="CollisionShape2D" parent="."]
+position = Vector2( 0, -22 )
+rotation = 1.5708
+shape = SubResource( 12 )
+
+[node name="Middle" type="CollisionShape2D" parent="."]
+position = Vector2( 0, -10 )
+rotation = 0.785398
+scale = Vector2( 2, 2 )
+shape = SubResource( 13 )
+
+[node name="Tip" type="CollisionShape2D" parent="."]
+position = Vector2( 0, 26 )
+shape = SubResource( 14 )
+
+[node name="GunMain" type="Node2D" parent="."]
+position = Vector2( -0.245712, 32 )
+z_index = 50
+
+[node name="DeathNodes" type="Node2D" parent="."]
+
+[node name="HumanDeathParticles" parent="DeathNodes" instance=ExtResource( 5 )]
+position = Vector2( 0, -12 )
+amount = 6
+process_material = SubResource( 10 )
+
+[node name="DeathParticles" type="CPUParticles2D" parent="DeathNodes"]
+visible = false
+emitting = false
+amount = 10
+one_shot = true
+explosiveness = 1.0
+texture = ExtResource( 6 )
+emission_shape = 2
+emission_rect_extents = Vector2( 26, 18 )
+spread = 180.0
+gravity = Vector2( 0, 0 )
+initial_velocity = 80.0
+damping = 10.0
+scale_amount_curve = SubResource( 5 )
+
+[node name="WaitAfterDeath" type="Timer" parent="DeathNodes"]
+one_shot = true
+
+[node name="Timers" type="Node" parent="."]
+
+[node name="Wait" type="Timer" parent="Timers"]
+one_shot = true
+
+[node name="WaitAfterShoot" type="Timer" parent="Timers"]
+one_shot = true
+
+[node name="Sounds" type="Node2D" parent="."]
+editor/display_folded = true
+
+[node name="Shoot" type="AudioStreamPlayer2D" parent="Sounds"]
+stream = ExtResource( 7 )
+volume_db = -25.0
+
+[node name="Death" type="AudioStreamPlayer2D" parent="Sounds"]
+stream = ExtResource( 8 )
+volume_db = -15.0
+
+[node name="FlashOnHurt" parent="." instance=ExtResource( 9 )]
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+playback_speed = 0.8
+anims/LineRedToWhite = SubResource( 6 )
+anims/LineWhiteToRed = SubResource( 7 )
+
+[node name="Targeting" type="Tween" parent="."]
+
+[node name="FaceForward" type="Tween" parent="."]
+
+[node name="ScreenWrap" parent="." instance=ExtResource( 10 )]
+buffer = 10.0
+
+[connection signal="timeout" from="DeathNodes/WaitAfterDeath" to="." method="_on_WaitAfterDeath_timeout"]
+[connection signal="timeout" from="Timers/Wait" to="." method="_on_Wait_timeout"]
+[connection signal="timeout" from="Timers/WaitAfterShoot" to="." method="_on_WaitAfterShoot_timeout"]
+[connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_AnimationPlayer_animation_finished"]
+[connection signal="tween_completed" from="Targeting" to="." method="_on_Targeting_tween_completed"]
+[connection signal="tween_completed" from="FaceForward" to="." method="_on_FaceForward_tween_completed"]

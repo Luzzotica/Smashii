@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/robotic mechanism (2).wav-9f7dd3a1db1dc61f2a69c894dd19ea7f.sample"
+
+[deps]
+
+source_file="res://Assets/Sounds/HumanProducer/robotic mechanism (2).wav"
+dest_files=[ "res://.import/robotic mechanism (2).wav-9f7dd3a1db1dc61f2a69c894dd19ea7f.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=true
+edit/normalize=true
+edit/loop=false
+compress/mode=0

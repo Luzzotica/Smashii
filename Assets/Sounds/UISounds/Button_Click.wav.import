@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/Button_Click.wav-60b9206e3a1edabe4f01f432bf0fe91c.sample"
+
+[deps]
+
+source_file="res://Assets/Sounds/UISounds/Button_Click.wav"
+dest_files=[ "res://.import/Button_Click.wav-60b9206e3a1edabe4f01f432bf0fe91c.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=true
+edit/normalize=true
+edit/loop=false
+compress/mode=0

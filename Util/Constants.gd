@@ -1,0 +1,154 @@
+extends Node
+
+##### SCENES #####
+
+var SCENES = {
+	ARCADE = "res://Scenes/Arcade/Arcade.tscn",
+	MAIN_MENU = "res://Scenes/MainMenu/MainMenu.tscn"
+}
+
+##### MISC #####
+
+var isMobile = (OS.get_name() == "iOS" 
+				or OS.get_name() == "Android")
+var isiOS = OS.get_name() == "iOS"
+var isAndroid = OS.get_name() == "Android"
+
+##### PLAYER #####
+
+const scoreForLife = 5000
+
+const powerupFowardBlast = 0
+const powerupTripleForwardBlast = 3
+const powerupSideBlast = 6
+const powerupFowardDisk = 9
+const powerupSideDisk = 12
+
+const powerupColors = [Color(1, 1, 0.5), Color(0, 1, 0.6), Color(0.4, 1.0, 1.0)]
+const shieldGone = Color(1, 1, 1, 0)
+const shieldWhite = Color(1, 1, 1, 1)
+const shieldBlue = Color(0.4, 1, 1, 1)
+
+const powerupScore = 50
+
+##### SPAWNING #####
+
+const WAVE_MODE = {
+	REPEAT = "REPEAT",
+	LOOP = "LOOP"
+}
+
+const PERIOD = {
+	DURING = "DURING",
+	END = "END"
+}
+
+const SCALE_MODE = {
+	NONE = "NONE",
+	LINEAR = "LINEAR",
+	LINEAR_DIFFICULTY = "LINEAR_DIFFICULTY",
+	EXP = "EXP",
+	EXP_DIFFICULTY = "EXP_DIFFICULTY",
+	DIFFICULTY = "DIFFICULTY"
+}
+
+const spawnAreaCenter: Vector2 = Vector2(300, -100)
+const spawnAreaSize: Vector2 = Vector2(500, 50)
+
+const ASTEROID = "ASTEROID"
+const HUMAN_SHOOTER = "HUMAN_SHOOTER"
+const HUMAN_KAMIKAZE = "HUMAN_KAMIKAZE"
+const HUMAN_SNIPER = "HUMAN_SNIPER"
+const HUMAN_PRODUCER = "HUMAN_PRODUCER"
+const ENEMY_WAVE_DATA_GENERIC = [
+#	{HUMAN_PRODUCER: 1}
+	{ASTEROID:1, HUMAN_SHOOTER:2},
+	{ASTEROID:1, HUMAN_SHOOTER:3, HUMAN_KAMIKAZE:1},
+	{ASTEROID:1, HUMAN_SHOOTER:4, HUMAN_KAMIKAZE:2},
+	{ASTEROID:1, HUMAN_SHOOTER:4, HUMAN_KAMIKAZE:3},
+	{ASTEROID:1, HUMAN_SHOOTER:5, HUMAN_KAMIKAZE:3},
+	{ASTEROID:1, HUMAN_SHOOTER:5, HUMAN_KAMIKAZE:3, HUMAN_SNIPER:1},
+	{ASTEROID:1, HUMAN_SHOOTER:6, HUMAN_KAMIKAZE:3, HUMAN_SNIPER:1},
+	{ASTEROID:1, HUMAN_SHOOTER:6, HUMAN_KAMIKAZE:4, HUMAN_SNIPER:1},
+	{ASTEROID:1, HUMAN_SHOOTER:7, HUMAN_KAMIKAZE:4, HUMAN_SNIPER:2},
+	{ASTEROID:1, HUMAN_SHOOTER:8, HUMAN_KAMIKAZE:5, HUMAN_SNIPER:2},
+	{ASTEROID:1, HUMAN_SHOOTER:8, HUMAN_KAMIKAZE:6, HUMAN_SNIPER:3},
+	{ASTEROID:1, HUMAN_SHOOTER:9, HUMAN_KAMIKAZE:6, HUMAN_SNIPER:3},
+	{ASTEROID:1, HUMAN_SHOOTER:9, HUMAN_KAMIKAZE:6, HUMAN_SNIPER:3, HUMAN_PRODUCER: 1},
+	{ASTEROID:1, HUMAN_SHOOTER:9, HUMAN_KAMIKAZE:7, HUMAN_SNIPER:3, HUMAN_PRODUCER: 1},
+	{ASTEROID:1, HUMAN_SHOOTER:10, HUMAN_KAMIKAZE:8, HUMAN_SNIPER:3, HUMAN_PRODUCER: 1},
+	{ASTEROID:1, HUMAN_SHOOTER:11, HUMAN_KAMIKAZE:8, HUMAN_SNIPER:3, HUMAN_PRODUCER: 1},
+	{ASTEROID:1, HUMAN_SHOOTER:11, HUMAN_KAMIKAZE:8, HUMAN_SNIPER:4, HUMAN_PRODUCER: 1},
+	{ASTEROID:1, HUMAN_SHOOTER:11, HUMAN_KAMIKAZE:8, HUMAN_SNIPER:4, HUMAN_PRODUCER: 1},
+	{ASTEROID:1, HUMAN_SHOOTER:11, HUMAN_KAMIKAZE:8, HUMAN_SNIPER:4, HUMAN_PRODUCER: 2},
+	{ASTEROID:1, HUMAN_SHOOTER:12, HUMAN_KAMIKAZE:8, HUMAN_SNIPER:5, HUMAN_PRODUCER: 2},
+	{ASTEROID:1, HUMAN_SHOOTER:13, HUMAN_KAMIKAZE:9, HUMAN_SNIPER:5, HUMAN_PRODUCER: 2},
+	{ASTEROID:1, HUMAN_SHOOTER:13, HUMAN_KAMIKAZE:10, HUMAN_SNIPER:5, HUMAN_PRODUCER: 3},
+	{ASTEROID:1, HUMAN_SHOOTER:14, HUMAN_KAMIKAZE:12, HUMAN_SNIPER:5, HUMAN_PRODUCER: 4},
+	{ASTEROID:1, HUMAN_SHOOTER:16, HUMAN_KAMIKAZE:15, HUMAN_SNIPER:6, HUMAN_PRODUCER: 4}
+]
+
+const SIGNAL_GROUPS = {
+	HAS_SHOOT = "HAS_SHOOT",
+	HAS_PRODUCE = "HAS_PRODUCE",
+}
+
+##### ENEMIES #####
+
+const humanShooterBlastColor = Color(1, 0, 0)
+const humanSniperBlastColor = Color(1, 0, 0)
+
+const enemyNormalColor = Color(1, 1, 1)
+const enemyHitColor = Color(0.6, 0.6, 0.6)
+const enemyStunColor = Color(1.0, 0, 0)
+const flashStunTime = 1.0
+const flashHurtTime = 0.2
+
+const genericOrders = {
+	MOVE = "MOVE",
+	WAIT = "WAIT"
+}
+
+const humanShooterOrders = {
+	SHOOT = "SHOOT",
+	SHOOTING = "SHOOTING"
+}
+
+const humanKamikazeOrders = {
+	TARGET_PLAYER = "TARGET_PLAYER",
+	FIRE_TIP = "FIRE_TIP",
+	FIRE_SELF = "FIRE_SELF",
+	FIRING_SELF = "FIRING_SELF"
+}
+
+const humanSniperOrders = {
+	TARGET_PLAYER = "TARGET_PLAYER",
+	SHOOT = "SHOOT",
+	FACE_FORWARD = "FACE_FORWARD"
+}
+
+const humanProducerOrders = {
+	CREATE_ATTACKERS = "CREATE_ATTACKERS",
+	CREATE_DEFENDERS = "CREATE_DEFENDERS"
+}
+const humanProducerBotTypes = {
+	ATTACKER = "ATTACKER",
+	DEFENDER = "DEFENDER",
+	BOMB = "BOMB"
+}
+const botMovespeedStartIncrease = 60
+
+##### UI #####
+
+const colorVisible = Color(1, 1, 1, 1)
+const colorInvisible = Color(1, 1, 1, 0)
+const MAIN_MENU_SWAP_TIME = 0.3
+
+const OFF_SCREEN_LEFT = -200
+const OFF_SCREEN_RIGHT = 200
+
+
+
+
+
+

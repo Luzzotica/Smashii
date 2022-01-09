@@ -1,0 +1,27 @@
+[gd_scene load_steps=8 format=2]
+
+[ext_resource path="res://Entities/EntityManager.gd" type="Script" id=1]
+[ext_resource path="res://Entities/Asteroids/Asteroid.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Entities/Enemies/Humans/HumanShooter.tscn" type="PackedScene" id=3]
+[ext_resource path="res://Entities/Enemies/Humans/HumanKamikaze.tscn" type="PackedScene" id=4]
+[ext_resource path="res://Entities/Enemies/Humans/HumanSniper.tscn" type="PackedScene" id=5]
+[ext_resource path="res://Entities/Enemies/Humans/HumanProducer.tscn" type="PackedScene" id=6]
+[ext_resource path="res://Entities/Player/Player.tscn" type="PackedScene" id=7]
+
+[node name="EntityManager" type="Node2D"]
+script = ExtResource( 1 )
+Asteroid = ExtResource( 2 )
+HumanShooter = ExtResource( 3 )
+HumanKamikaze = ExtResource( 4 )
+HumanSniper = ExtResource( 5 )
+HumanProducer = ExtResource( 6 )
+
+[node name="Player" parent="." groups=[
+"Player",
+] instance=ExtResource( 7 )]
+pause_mode = 2
+position = Vector2( 305.784, 1170.43 )
+
+[node name="RespawnPoint" type="Node2D" parent="."]
+position = Vector2( 300, 800 )
+

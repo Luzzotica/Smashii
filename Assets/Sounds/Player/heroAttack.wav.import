@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/heroAttack.wav-b66e4f2f8a5c9d988191eecbe6590808.sample"
+
+[deps]
+
+source_file="res://Assets/Sounds/Player/heroAttack.wav"
+dest_files=[ "res://.import/heroAttack.wav-b66e4f2f8a5c9d988191eecbe6590808.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=true
+edit/normalize=true
+edit/loop=false
+compress/mode=0

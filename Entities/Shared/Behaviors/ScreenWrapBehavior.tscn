@@ -1,0 +1,30 @@
+[gd_scene load_steps=2 format=2]
+
+[sub_resource type="GDScript" id=1]
+script/source = "extends Node2D
+
+var width = 0.0
+var screenWidth = 0.0
+
+export(float) var buffer = 3.0
+
+func _ready():
+	if get_parent().has_method(\"get_width\"):
+		width = get_parent().get_width()
+		screenWidth = get_viewport().size.x
+		set_process(true)
+	else:
+		print(\"FATAL ERROR: Parent of wrap node must have method 'get_width'\")
+
+func _process(delta):
+	
+	if global_position.x - width / 2 - buffer > screenWidth:
+		get_parent().position.x = -width / 2
+	elif global_position.x + width / 2 + buffer < 0:
+		get_parent().position.x = screenWidth + width / 2
+"
+
+[node name="ScreenWrap" type="Node2D"]
+z_index = 110
+script = SubResource( 1 )
+

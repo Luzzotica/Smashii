@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/Ending_Below_Sea_Level.wav-179235827dfe0dcc4f3f845d1852a3c8.sample"
+
+[deps]
+
+source_file="res://Assets/Sounds/Music/Ending_Below_Sea_Level.wav"
+dest_files=[ "res://.import/Ending_Below_Sea_Level.wav-179235827dfe0dcc4f3f845d1852a3c8.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=true
+edit/normalize=true
+edit/loop=true
+compress/mode=0
