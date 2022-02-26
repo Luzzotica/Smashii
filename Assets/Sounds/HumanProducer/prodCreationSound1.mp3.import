@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/prodCreationSound1.mp3-142e872c903ea5bf41f9ced419311e76.mp3str"
+
+[deps]
+
+source_file="res://Assets/Sounds/HumanProducer/prodCreationSound1.mp3"
+dest_files=[ "res://.import/prodCreationSound1.mp3-142e872c903ea5bf41f9ced419311e76.mp3str" ]
+
+[params]
+
+loop=true
+loop_offset=0

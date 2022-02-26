@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/sniperFAttack1.mp3-97b006c5c6adf5b889793b51c5ae538d.mp3str"
+
+[deps]
+
+source_file="res://Assets/Sounds/HumanSniper/sniperFAttack1.mp3"
+dest_files=[ "res://.import/sniperFAttack1.mp3-97b006c5c6adf5b889793b51c5ae538d.mp3str" ]
+
+[params]
+
+loop=true
+loop_offset=0

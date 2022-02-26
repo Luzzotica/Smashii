@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/Ending_Below_Sea_Level.mp3-9313d7509cda5e89c3f83df682bc9867.mp3str"
+
+[deps]
+
+source_file="res://Assets/Sounds/Music/Ending_Below_Sea_Level.mp3"
+dest_files=[ "res://.import/Ending_Below_Sea_Level.mp3-9313d7509cda5e89c3f83df682bc9867.mp3str" ]
+
+[params]
+
+loop=true
+loop_offset=0

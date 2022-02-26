@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/Button_Click.mp3-43d1f2563492da9d922b36cc0fedfc56.mp3str"
+
+[deps]
+
+source_file="res://Assets/Sounds/UISounds/Button_Click.mp3"
+dest_files=[ "res://.import/Button_Click.mp3-43d1f2563492da9d922b36cc0fedfc56.mp3str" ]
+
+[params]
+
+loop=true
+loop_offset=0

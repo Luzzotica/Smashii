@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/shooterAttack1.mp3-3db3870ff45a00e4cb4ed9f2b3750f98.mp3str"
+
+[deps]
+
+source_file="res://Assets/Sounds/HumanShooter/shooterAttack1.mp3"
+dest_files=[ "res://.import/shooterAttack1.mp3-3db3870ff45a00e4cb4ed9f2b3750f98.mp3str" ]
+
+[params]
+
+loop=true
+loop_offset=0

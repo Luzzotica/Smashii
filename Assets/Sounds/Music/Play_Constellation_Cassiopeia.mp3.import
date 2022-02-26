@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/Play_Constellation_Cassiopeia.mp3-e54efc9f620f8b4deda4ec328cf247fa.mp3str"
+
+[deps]
+
+source_file="res://Assets/Sounds/Music/Play_Constellation_Cassiopeia.mp3"
+dest_files=[ "res://.import/Play_Constellation_Cassiopeia.mp3-e54efc9f620f8b4deda4ec328cf247fa.mp3str" ]
+
+[params]
+
+loop=true
+loop_offset=0

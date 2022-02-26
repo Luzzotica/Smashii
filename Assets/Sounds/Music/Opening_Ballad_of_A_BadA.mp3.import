@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/Opening_Ballad_of_A_BadA.mp3-cf6c2b9d54fb597b851aa8d005c4921e.mp3str"
+
+[deps]
+
+source_file="res://Assets/Sounds/Music/Opening_Ballad_of_A_BadA.mp3"
+dest_files=[ "res://.import/Opening_Ballad_of_A_BadA.mp3-cf6c2b9d54fb597b851aa8d005c4921e.mp3str" ]
+
+[params]
+
+loop=true
+loop_offset=0

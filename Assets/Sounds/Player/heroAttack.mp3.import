@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/heroAttack.mp3-76e9c5f28b04f574b99f3d2eb218fec0.mp3str"
+
+[deps]
+
+source_file="res://Assets/Sounds/Player/heroAttack.mp3"
+dest_files=[ "res://.import/heroAttack.mp3-76e9c5f28b04f574b99f3d2eb218fec0.mp3str" ]
+
+[params]
+
+loop=true
+loop_offset=0
